@@ -27,6 +27,12 @@
                                 <span><a href=""> #{{ $tag->name }} </a></span>
                                 {{--<p>{{ $article->description }}</p>--}}
                             @endforeach
+                            <form action="{{ route('favorite.like') }}" method="post">
+                                {{ csrf_field() }}
+                                <input type="hidden" value="{{ $article->id }}" name="article_id">
+                                <input type="hidden" value="1" name="user_id">
+                                <button class="btn btn-md btn-danger" type="submit">Like</button>
+                            </form>
                         @endforeach
 
                     </div>

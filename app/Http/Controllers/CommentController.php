@@ -13,9 +13,9 @@ class CommentController extends Controller
     {
         $tags = $request->input('tag');
 
-        $article = Comment::create(array_except($request->all(),'tag'));
+        $comment = Comment::create(array_except($request->all(),'tag'));
 
-        $article->tags()->attach($this->saveTag($tags));
+        $comment->tags()->attach($this->saveTag($tags));
 
         return back();
     }
@@ -36,6 +36,5 @@ class CommentController extends Controller
         $tagId = array_pluck($tags,'id');
 
         return $tagId;
-
     }
 }

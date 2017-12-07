@@ -40,4 +40,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Article');
     }
+
+    public function hasFavorited($userId,$articleId)
+    {
+        $this->where('user_id','=', $userId)->where('article_id','=', $articleId)->first();
+    }
 }

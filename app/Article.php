@@ -29,12 +29,7 @@ class Article extends Model
     {
         return $this->belongsTo(User::class,'users');
     }
-    public function like(User $user)
-    {
-//        $user = User::find($id);
-        //find post
-        $user->favorites()->toggle($this->find());
-    }
+
     /**
      * Get the comments for the blog.
      */
