@@ -4,11 +4,13 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Article;
 
 class User extends Authenticatable
 {
     use Notifiable;
 
+    use Notifiable;
     /**
      * The attributes that are mass assignable.
      *
@@ -26,4 +28,16 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function favorites()
+    {
+        return $this->belongsToMany(Article::class,'favorites');
+    }
+    /**
+     * Get the Article for the User.
+     */
+    public function articles()
+    {
+        return $this->hasMany('App\Article');
+    }
 }
