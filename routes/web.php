@@ -12,8 +12,9 @@
 */
 
 Route::get('/', function () {
-    return view('articles.welcome');
+    return view('welcome');
 });
+
 Route::get('articles', 'ArticleController@index')->name('articles.index');
 Route::get('articles/create', 'ArticleController@create')->name('articles.create');
 Route::post('articles', 'ArticleController@store')->name('articles.store');
@@ -23,7 +24,7 @@ Route::match(['PUT', 'PATCH'], 'articles/{article}','ArticleController@update')-
 Route::delete('articles/{article}', 'ArticleController@destroy')->name('articles.destroy');
 Route::post('comments', 'CommentController@store')->name('comments.post');
 
-Route::post('like','FavoriteController@like')->name('favorite.like');
+Route::post('like','FavoriteController')->name('favorite.like');
 Route::get('notify',function () {
     $user = \App\User::first();
     $article = \App\Article::first();

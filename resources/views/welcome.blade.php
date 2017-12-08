@@ -11,6 +11,11 @@
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
     <!-- Styles -->
+    {{--{{ HTML::style('css/app.css'); }}--}}
+    <link rel="stylesheet" href="{{ URL::asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ URL::asset('css/index.css') }}">
+
+    {{--<link rel="stylesheet" type="text/css" href="css/app.css"/>--}}
     <style>
         html, body {
             background-color: #fff;
@@ -65,7 +70,7 @@
     </style>
 </head>
 <body>
-<h2>hi</h2>
+<h2 class="song">hi</h2>
 {{--<ul>--}}
 {{--<li>{{ $users->implode('name',',') }}</li>--}}
 {{--</ul>--}}

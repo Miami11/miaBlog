@@ -8,7 +8,10 @@ use App\Tag;
 
 class CommentController extends Controller
 {
-    //
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
         $tags = $request->input('tag');
@@ -31,7 +34,6 @@ class CommentController extends Controller
         {
             $tags[] = Tag::firstOrCreate([
                 'name' => $k]);
-
         }
         $tagId = array_pluck($tags,'id');
 

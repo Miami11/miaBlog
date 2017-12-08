@@ -16,29 +16,29 @@ class ArticleController extends Controller
 
     public function store(Request $request)
     {
-        $tags = $request->get('tag');
+        $data = $request->all();
+        $tags = array_pull($data, 'tag');
 
-       $article = Article::create(array_except($request->all(),'tag'));
+        $article = Article::create($data);
 
-       $article->tags()->attach($this->saveTag($tags));
+        $article->tags()->attach($this->saveTag($tags));
 
         return redirect()->route('articles.index');
     }
 
     private function saveTag($tags)
     {
-        $array = collect(explode("#",$tags));
+        $array = collect(explode("#", $tags));
         $filtered = $array->filter(function ($value, $key) {
             return $value != "";
         });
         $tags = [];
-        foreach ($filtered->all() as $k)
-        {
+        foreach ($filtered->all() as $k) {
             $tags[] = Tag::firstOrCreate([
-               'name' => $k]);
-
+                'name' => $k
+            ]);
         }
-       $tagId = array_pluck($tags,'id');
+        $tagId = array_pluck($tags, 'id');
 
         return $tagId;
     }
@@ -57,12 +57,22 @@ class ArticleController extends Controller
 
     public function edit(Article $article)
     {
-        return view('articles.edit', compact('article'));
+        $tags = collect(array_pluck($article->tags()->get(), 'name'))->map(function ($item, $key) {
+            return "#" . $item;
+        })->implode("");
+
+        return view('articles.edit', compact('article', 'tags'));
     }
 
     public function update(Request $request, Article $article)
     {
-        $article->update($request->all());
+        $data = $request->all();
+
+        $tags = array_pull($data,'tag');
+
+        $article->update($data);
+
+        $article->tags()->sync($this->saveTag($tags));
 
         return redirect()->route('articles.show', $article->id);
     }
