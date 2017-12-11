@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Article;
 use App\Tag;
+use Gate;
+use Auth;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
@@ -23,7 +25,7 @@ class ArticleController extends Controller
 
         $article->tags()->attach($this->saveTag($tags));
 
-        return redirect()->route('articles.index');
+        return redirect()->route('articles.index',$article->user_id);
     }
 
     private function saveTag($tags)
@@ -43,11 +45,18 @@ class ArticleController extends Controller
         return $tagId;
     }
 
-    public function index()
+    public function index(Article $article,$id)
+    {
+        $articles = $article->where('user_id','=', $id)->paginate(5);
+
+        return view('articles.index', compact('articles'));
+    }
+
+    public function welcome()
     {
         $articles = Article::paginate(5);
 
-        return view('articles.index', compact('articles'));
+        return view('welcome', compact('articles'));
     }
 
     public function show(Article $article)
@@ -57,6 +66,9 @@ class ArticleController extends Controller
 
     public function edit(Article $article)
     {
+        if (Gate::denies('update', $article)) {
+            abort(403,'Nope');
+        }
         $tags = collect(array_pluck($article->tags()->get(), 'name'))->map(function ($item, $key) {
             return "#" . $item;
         })->implode("");
@@ -66,9 +78,12 @@ class ArticleController extends Controller
 
     public function update(Request $request, Article $article)
     {
+        if (Auth::user()->cannot('update',$article)){
+            return redirect()->route('articles.index',$article->user_id);
+        }
         $data = $request->all();
 
-        $tags = array_pull($data,'tag');
+        $tags = array_pull($data, 'tag');
 
         $article->update($data);
 
@@ -81,6 +96,6 @@ class ArticleController extends Controller
     {
         $article->delete();
 
-        return redirect()->route('articles.index');
+        return redirect()->route('articles.index',$article->user_id);
     }
 }

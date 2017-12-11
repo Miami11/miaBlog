@@ -5,6 +5,8 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Article;
+use App\Favorite;
+use Auth;
 
 class User extends Authenticatable
 {
@@ -40,9 +42,13 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Article');
     }
-
-    public function hasFavorited($userId,$articleId)
+    /**
+     * @param $articleId
+     * @return bool
+     */
+    public function hasFavorited($articleId)
     {
-        $this->where('user_id','=', $userId)->where('article_id','=', $articleId)->first();
+        $bool = is_null(Favorite::where('user_id','=',Auth::user()->id)->where('article_id','=',$articleId)->first());
+        return $bool;
     }
 }

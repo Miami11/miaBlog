@@ -27,7 +27,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <input type="hidden" name="user_id" value="1">
+                        <input type="hidden" name="user_id" value="{{ Auth::id() }}">
                         <button type="submit" class="btn btn-default">Submit</button>
                     </div>
                 </div>
