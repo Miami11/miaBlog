@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Article;
 use App\Tag;
 use Gate;
+use App\User;
 use Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class ArticleController extends Controller
 {
@@ -25,7 +28,7 @@ class ArticleController extends Controller
 
         $article->tags()->attach($this->saveTag($tags));
 
-        return redirect()->route('articles.index',$article->user_id);
+        return redirect()->route('articles.index', $article->user_id);
     }
 
     private function saveTag($tags)
@@ -45,18 +48,20 @@ class ArticleController extends Controller
         return $tagId;
     }
 
-    public function index(Article $article,$id)
+    public function index(Article $article, User $user)
     {
-        $articles = $article->where('user_id','=', $id)->paginate(5);
+        $articles = $user->articles()->paginate(5);
 
-        return view('articles.index', compact('articles'));
+        return view('articles.index', compact('articles','user'));
     }
 
     public function welcome()
     {
-        $articles = Article::paginate(5);
+         //Foreign key
+        $articles = Article::with('users:id,name')->latest()->filter(request(['month', 'year']))
+            ->get();
 
-        return view('welcome', compact('articles'));
+        return view('welcome', compact('articles','user'));
     }
 
     public function show(Article $article)
@@ -67,7 +72,7 @@ class ArticleController extends Controller
     public function edit(Article $article)
     {
         if (Gate::denies('update', $article)) {
-            abort(403,'Nope');
+            abort(403, 'Nope');
         }
         $tags = collect(array_pluck($article->tags()->get(), 'name'))->map(function ($item, $key) {
             return "#" . $item;
@@ -78,8 +83,8 @@ class ArticleController extends Controller
 
     public function update(Request $request, Article $article)
     {
-        if (Auth::user()->cannot('update',$article)){
-            return redirect()->route('articles.index',$article->user_id);
+        if (Auth::user()->cannot('update', $article)) {
+            return redirect()->route('articles.index', $article->user_id);
         }
         $data = $request->all();
 
@@ -96,6 +101,6 @@ class ArticleController extends Controller
     {
         $article->delete();
 
-        return redirect()->route('articles.index',$article->user_id);
+        return redirect()->route('articles.index', $article->user_id);
     }
 }

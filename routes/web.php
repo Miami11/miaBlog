@@ -19,17 +19,17 @@ Route::group(['middleware' => ['auth']], function () {
     Route::match(['PUT', 'PATCH'], 'articles/{article}', 'ArticleController@update')->name('articles.update');
     Route::delete('articles/{article}', 'ArticleController@destroy')->name('articles.destroy');
 });
-Route::get('articles/{id}/index', 'ArticleController@index')->name('articles.index');
-
+Route::get('articles/{user}/index', 'ArticleController@index')->name('articles.index');
+Route::get('articles/tags/{tag}','TagController@index')->name('articles.tag');
 Route::post('comments', 'CommentController@store')->name('comments.post');
 Route::get('articles/{article}', 'ArticleController@show')->name('articles.show');
 Route::post('like', 'FavoriteController')->name('favorite.like');
-Route::get('notify', function () {
-    $user = \App\User::first();
-    $article = \App\Article::first();
-
-    $user->notify(new \App\Notifications\ArticlePublished($article));
-});
+//Route::get('notify', function () {
+//    $user = \App\User::first();
+//    $article = \App\Article::first();
+//
+//    $user->notify(new \App\Notifications\ArticlePublished($article));
+//});
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

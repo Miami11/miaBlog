@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Tag;
 use Illuminate\Support\Facades\Gate;
+use App\Article;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -29,5 +31,10 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('update', function ($user, $article) {
             return $user->id == $article->user_id;
         });
+     view()->composer('layouts.footer', function($view) {
+         $view->with('archives', Article::archives());
+         $view->with('tags',Tag::has('articles')->pluck('name'));
+     });
     }
+
 }

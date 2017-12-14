@@ -3,32 +3,22 @@
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto">
                 <ul class="list-inline text-center">
-                    <li class="list-inline-item">
-                        <a href="#">
-                  <span class="fa-stack fa-lg">
-                    <i class="fa fa-circle fa-stack-2x"></i>
-                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                  </span>
-                        </a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a href="#">
-                  <span class="fa-stack fa-lg">
-                    <i class="fa fa-circle fa-stack-2x"></i>
-                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-                  </span>
-                        </a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a href="#">
-                  <span class="fa-stack fa-lg">
-                    <i class="fa fa-circle fa-stack-2x"></i>
-                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                  </span>
-                        </a>
-                    </li>
+
+                    <h1>Archives</h1>
+                    <ol class="list-group">
+                        @foreach($archives as $stats)
+                            <li class="list-group-item justify-content-between">
+                                <a href="/?month={{ $stats['month'] }}&year={{ $stats['year'] }}">{{ $stats['month'].'  '.$stats['year'] }}</a>
+                            </li>
+                        @endforeach
+                    </ol>
                 </ul>
-                <p class="copyright text-muted">Copyright &copy; Your Website 2017</p>
+               <h3>Tag:</h3>
+                <ol class="list-unstyled">
+                @foreach($tags as $tag)
+                        <a href="{{ route('articles.tag',$tag) }}">{{ $tag }}</a>
+                @endforeach
+                </ol>
             </div>
         </div>
     </div>

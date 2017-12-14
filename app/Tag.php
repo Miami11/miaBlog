@@ -20,4 +20,9 @@ class Tag extends Model
     {
         return $this->morphedByMany('App\Comment', 'taggables');
     }
+
+    public function getRouteKeyName()
+    {
+        return 'name';
+    }
 }

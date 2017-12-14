@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-    <header class="masthead" style="background-image: url('http://placekitten.com/800/300')">
+        <header class="masthead" style="background-image: url('http://placekitten.com/800/300')">
         <div class="overlay"></div>
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-md-10 mx-auto">
                     <div class="site-heading">
-                        <h1>Clean Blog</h1>
-                        <span class="subheading">A Blog Theme by Start Bootstrap</span>
+                        <h1>{{ $user->name }}'s Blog</h1>
+                        {{--<span class="subheading">Diary</span>--}}
                     </div>
                 </div>
             </div>
@@ -20,6 +20,7 @@
         <div class="col-lg-8 col-md-10 mx-auto">
             <div class="post-preview">
                 @foreach($articles as $article)
+
                     <a href="{{ route('articles.show', $article->id) }}">
                         <h2 class="post-title">
                             {{ $article->title }}
@@ -27,10 +28,9 @@
                     </a>
                     <p class="post-meta">Posted by
                         <a href="#">Start Bootstrap</a>
-                        on September 24, 2017</p>
-                    @foreach($article->tags()->get() as $tag)
-                        {{--{{ dd($tag->name) }}--}}
-                        <span><a href=""> #{{ $tag->name }} </a></span>
+                        {{ Carbon\Carbon::parse($article->created_at)->toFormattedDateString() }}</p>
+                    @foreach($article->tags as $tag)
+                        <span><a href="{{ route('articles.tag',$tag) }}"> #{{ $tag->name }} </a></span>
                     @endforeach
                     @auth
                     @if(Auth::user()->hasFavorited($article->id) === true)
@@ -48,6 +48,7 @@
                     @endif
                     @endauth
                 @endforeach
+
             </div>
             <hr>
             <!-- Pager -->
@@ -56,6 +57,7 @@
             </div>
         </div>
     </div>
+
     {{ $articles->links() }}
 @endsection
 
