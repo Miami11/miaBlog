@@ -14,6 +14,10 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
+        if (empty($request->all())){
+            \Session::flash('errors','please entry a message');
+            redirect()->name('articles.welcome');
+        }
         $tags = $request->input('tag');
 
         $comment = Comment::create(array_except($request->all(),'tag'));

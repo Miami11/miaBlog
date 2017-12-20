@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-        <header class="masthead" style="background-image: url('http://placekitten.com/800/300')">
+    <header class="masthead" style="background-image: url('http://placekitten.com/800/300')">
         <div class="overlay"></div>
         <div class="container">
             <div class="row">

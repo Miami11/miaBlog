@@ -31,8 +31,8 @@
                     <form action="{{ route('comments.post') }}" method="post">
                         {{ csrf_field() }}
                         <input type="hidden" value="{{ $article->id }}" name="article_id">
-                        <input type="text" name="tag" placeholder="#tag">
-                        <input type="text" name="text">
+                        <input required type="text" name="tag" placeholder="#tag">
+                        <input required type="text" name="text">
                         <button class="btn btn-md btn-success" type="submit">Submit</button>
 
                     </form>

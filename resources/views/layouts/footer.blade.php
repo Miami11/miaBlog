@@ -1,7 +1,13 @@
 <footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-md-10 mx-auto">
+
+            <div class="col-lg-12 col-md-10 mx-auto">
+
+                <h3>Tag List:</h3>
+                <ol class="list-unstyled">
+                    @foreach($tags as $tag)
+                        <a href="{{ route('articles.tag',$tag) }}">{{ $tag }}</a>
+                    @endforeach
+                </ol>
                 <ul class="list-inline text-center">
 
                     <h1>Archives</h1>
@@ -13,13 +19,6 @@
                         @endforeach
                     </ol>
                 </ul>
-               <h3>Tag:</h3>
-                <ol class="list-unstyled">
-                @foreach($tags as $tag)
-                        <a href="{{ route('articles.tag',$tag) }}">{{ $tag }}</a>
-                @endforeach
-                </ol>
             </div>
-        </div>
-    </div>
+
 </footer>

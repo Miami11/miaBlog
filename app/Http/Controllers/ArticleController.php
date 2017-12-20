@@ -55,11 +55,19 @@ class ArticleController extends Controller
         return view('articles.index', compact('articles','user'));
     }
 
-    public function welcome()
+    public function welcome(Request $request)
     {
-         //Foreign key
+//        $this->validate($request, [
+//            'month' => 'date',
+//            'year' => 'date',
+//        ]);
+        //Foreign key
         $articles = Article::with('users:id,name')->latest()->filter(request(['month', 'year']))
             ->get();
+//        dd($articles);
+        if (empty($articles)){
+            return redirect()->route('articles.welcome');
+        }
 
         return view('welcome', compact('articles','user'));
     }
