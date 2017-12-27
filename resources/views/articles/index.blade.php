@@ -33,19 +33,21 @@
                         <span><a href="{{ route('articles.tag',$tag) }}"> #{{ $tag->name }} </a></span>
                     @endforeach
                     @auth
-                    @if(Auth::user()->hasFavorited($article->id) === true)
-                        <form action="{{ route('favorite.like') }}" method="post">
-                            {{ csrf_field() }}
-                            <input type="hidden" value="{{ $article->id }}" name="article_id">
-                            <button class="btn btn-md btn-danger" type="submit">Like</button>
-                        </form>
-                    @else(Auth::user()->hasFavorited() === false)
-                        <form action="{{ route('favorite.like') }}" method="post">
-                            {{ csrf_field() }}
-                            <input type="hidden" value="{{ $article->id }}" name="article_id">
-                            <button class="btn btn-md btn-primary" type="submit">unLike</button>
-                        </form>
-                    @endif
+                    @can('canLike',$article)
+                        @if(Auth::user()->hasFavorited($article->id) === true)
+                            <form action="{{ route('favorite.like') }}" method="post">
+                                {{ csrf_field() }}
+                                <input type="hidden" value="{{ $article->id }}" name="article_id">
+                                <button class="btn btn-md btn-danger" type="submit">Like</button>
+                            </form>
+                        @else(Auth::user()->hasFavorited() === false)
+                            <form action="{{ route('favorite.like') }}" method="post">
+                                {{ csrf_field() }}
+                                <input type="hidden" value="{{ $article->id }}" name="article_id">
+                                <button class="btn btn-md btn-primary" type="submit">unLike</button>
+                            </form>
+                        @endif
+                    @endcan
                     @endauth
                 @endforeach
 

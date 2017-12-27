@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+    @include('editor::head')
     <div class="row">
         <div class="col-lg-8">
 

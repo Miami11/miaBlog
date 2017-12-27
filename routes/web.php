@@ -12,24 +12,37 @@
 */
 
 Route::get('/', 'ArticleController@welcome');
-Route::group(['middleware' => ['auth']], function () {
-    Route::get('articles/create', 'ArticleController@create')->name('articles.create');
-    Route::post('articles', 'ArticleController@store')->name('articles.store');
-    Route::get('articles/{article}/edit', 'ArticleController@edit')->name('articles.edit');
-    Route::match(['PUT', 'PATCH'], 'articles/{article}', 'ArticleController@update')->name('articles.update');
-    Route::delete('articles/{article}', 'ArticleController@destroy')->name('articles.destroy');
+Route::group(['prefix' => 'articles', 'as' => 'articles.', "middleware" => 'auth'], function () {
+    Route::get('create', 'ArticleController@create')->name('create');
+    Route::post('', 'ArticleController@store')->name('store');
+    Route::get('/{article}/edit', 'ArticleController@edit')->name('edit');
+    Route::match(['PUT', 'PATCH'], '/{article}', 'ArticleController@update')->name('update');
+    Route::delete('/{article}', 'ArticleController@destroy')->name('destroy');
+});
+Route::group(['prefix' => 'profile', 'as' => 'profile.', 'middleware' => 'auth'], function () {
+    Route::get('editPassword','Auth\ChangeProfileController@editPassword')->name('edit');
+    Route::PUT('changePassword', 'Auth\ChangeProfileController@changePassword')->name('changePassword');
+
 });
 Route::get('articles/{user}/index', 'ArticleController@index')->name('articles.index');
-Route::get('articles/tags/{tag}','TagController@index')->name('articles.tag');
+Route::get('articles/tags/{tag}', 'TagController@index')->name('articles.tag');
 Route::post('comments', 'CommentController@store')->name('comments.post');
 Route::get('articles/{article}', 'ArticleController@show')->name('articles.show');
 Route::post('like', 'FavoriteController')->name('favorite.like');
+
+//member system
+//Route::group(['middleware' => ['auth']], function () {
+//});
 //Route::get('notify', function () {
 //    $user = \App\User::first();
 //    $article = \App\Article::first();
 //
 //    $user->notify(new \App\Notifications\ArticlePublished($article));
 //});
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

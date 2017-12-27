@@ -39,7 +39,7 @@
                     <!-- Left Side Of Navbar -->
                     @auth
                     <ul class="nav navbar-nav">
-                        &nbsp;<li><a href="{{ route('articles.create') }}">Create</a></li>
+                        &nbsp;<li><a href="{{ route('articles.create') }}">@lang('activity.type.create')</a></li>
                     </ul>
                     @endauth
 
@@ -67,11 +67,26 @@
                                             {{ csrf_field() }}
                                         </form>
                                     </li>
+                                    <li>
+                                        <a href="{{ route('profile.edit') }}">Change Password</a>
+                                    </li>
                                 </ul>
                             </li>
                         @endguest
                     </ul>
                 </div>
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                @if(Session::has('message'))
+                    <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
+                @endif
                 @yield('content')
 
             </div>

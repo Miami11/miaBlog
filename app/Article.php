@@ -23,7 +23,8 @@ class Article extends Model
         'title',
         'user_id',
         'description',
-        'status'
+        'status',
+        'popular'
     ];
 
     protected $table = 'articles';
@@ -63,8 +64,8 @@ class Article extends Model
         if (date('F') == $filters['month']) {
             //turn string to number
             $month = Carbon::parse($filters['month'])->month;
-             $query->whereMonth('created_at', $month);
-        }else {
+            $query->whereMonth('created_at', $month);
+        } else {
             $query->whereMonth('created_at', Carbon::now()->month);
         }
 
