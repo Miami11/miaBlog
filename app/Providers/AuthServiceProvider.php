@@ -36,10 +36,7 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('canLike',function ($user, $article) {
             return $user->id !== $article->user_id;
         });
-     view()->composer('layouts.footer', function($view) {
-         $view->with('archives', Article::archives());
-         $view->with('tags',Tag::has('articles')->pluck('name'));
-     });
+
     }
 
 }

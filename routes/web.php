@@ -22,7 +22,13 @@ Route::group(['prefix' => 'articles', 'as' => 'articles.', "middleware" => 'auth
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'middleware' => 'auth'], function () {
     Route::get('editPassword','Auth\ChangeProfileController@editPassword')->name('edit');
     Route::PUT('changePassword', 'Auth\ChangeProfileController@changePassword')->name('changePassword');
+});
 
+Route::group(['prefix' => 'gift', 'as' => 'gift.'], function () {
+    Route::get('','GiftController@index')->name('index');
+    Route::post('','GiftController@session')->name('add');
+    Route::get('wishList', 'GiftController@edit')->name('wishList');
+    Route::delete('/{article}', 'GiftController@destroy')->name('destroy');
 });
 Route::get('articles/{user}/index', 'ArticleController@index')->name('articles.index');
 Route::get('articles/tags/{tag}', 'TagController@index')->name('articles.tag');
@@ -39,10 +45,6 @@ Route::post('like', 'FavoriteController')->name('favorite.like');
 //
 //    $user->notify(new \App\Notifications\ArticlePublished($article));
 //});
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

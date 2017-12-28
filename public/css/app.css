@@ -8359,4 +8359,7 @@ button.close {
   color: #000000;
   letter-spacing: 3px;
 }
-
+.product {
+  width:200px;
+  height:200px;
+}

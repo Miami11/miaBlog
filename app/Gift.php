@@ -10,6 +10,7 @@ class Gift extends Model
 
     protected $fillable = [
         'name',
+        'path',
         'points',
     ];
 
@@ -17,4 +18,5 @@ class Gift extends Model
     {
         return $this->belongsToMany('App\User', 'gift_user');
     }
+
 }

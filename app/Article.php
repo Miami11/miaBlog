@@ -85,4 +85,5 @@ class Article extends Model
             ->toArray();
     }
 
+
 }

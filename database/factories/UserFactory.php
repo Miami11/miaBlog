@@ -14,16 +14,24 @@ use Faker\Generator as Faker;
 */
 $factory->define(App\Tag::class, function (Faker $faker) {
     return [
-        'name' => $faker->colorName(1,true),
+        'name' => $faker->colorName(1, true),
     ];
 });
 
 $factory->define(App\Article::class, function (Faker $faker) {
     return [
         'user_id' => App\User::all()->random()->id,
-        'title' => $faker->sentences(1,true),
-        'description' => $faker->paragraphs(1,true),
-        'status'=>1,
+        'title' => $faker->sentences(1, true),
+        'description' => $faker->paragraphs(1, true),
+        'status' => 1,
+    ];
+});
+
+$factory->define(App\Gift::class, function (Faker $faker) {
+    return [
+        'name' => $faker->colorName,
+        'path' => 'gift/b',
+        'points' => $faker->numberBetween($min = 1000, $max = 9000),
     ];
 });
 $factory->define(App\User::class, function (Faker $faker) {
